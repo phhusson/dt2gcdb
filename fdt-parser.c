@@ -335,7 +335,7 @@ uint8_t timing[12];
 	tmp = fdt_get_property(fdt, id, "qcom,mdss-dsi-panel-timings", NULL);
 	memcpy(timing, tmp->data, 12);
 
-printf("static struct panel_timing %s_timings = {\n"
+printf("static struct panel_timing %s_timings[] = {\n"
 "       0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x\n"
 "};\n", panel,
 	timing[0], timing[1], timing[2],
