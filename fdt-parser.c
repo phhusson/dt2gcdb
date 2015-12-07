@@ -81,6 +81,18 @@ void dump_cmds(const struct fdt_property *prop, const char* panel, const char *v
 			printf("%01d10%03d static char %s_%s_cmd%d = { 0x%02x, 0x%02x, 0x%02x, 0x%02x};\n", p, v, panel, variable_name, v,
 					prop->data[pos], 0, hdr->dtype, 0x80);
 			printf("%01d20%03d { 0x%02x, %s_%s_cmd%d, 0x%02x},\n", p, v, 4, panel, variable_name, v, hdr->wait);
+		//DTYPE_DCS_WRITE1
+		} else if(hdr->dtype == 0x15) {
+			if(len != 2)
+				exit(1);
+			uint8_t val = 0;
+			if(hdr->last)
+				val |= 0x80;
+			if(hdr->ack)
+				val |= 0x20;
+			printf("%01d10%03d static char %s_%s_cmd%d = { 0x%02hhx, 0x%02hhx, 0x%02hhx, 0x%02hhx};\n", p, v, panel, variable_name, v,
+					prop->data[pos], prop->data[pos+1], hdr->dtype, 0x80);
+			printf("%01d20%03d { 0x%02x, %s_%s_cmd%d, 0x%02x},\n", p, v, 4, panel, variable_name, v, hdr->wait);
 		} else {
 			printf("==Unsupported %x\n", hdr->dtype);
 			exit(1);
